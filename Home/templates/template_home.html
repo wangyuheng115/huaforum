@@ -1,0 +1,172 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-title" content="华友圈">
+    <meta name="application-name" content="华友圈">
+    <meta name="msapplication-TileColor" content="#FF6060">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+    <link rel="icon" href="{% static 'images/logo-16x16.ico' %}" sizes="16x16">
+    <link rel="icon" href="{% static 'images/logo-32x32.ico' %}" sizes="32x32">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon.ico' %}">
+    <link rel="manifest" href="{% static 'site.webmanifest' %}">
+    <link rel="mask-icon" href="{% static 'images/logo.svg' %}" color="#FF6060">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Home.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{% static 'javascript/Home_subcom.js'%}"></script>
+     <!-- 引入 React 和 React DOM 的 CDN -->
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+
+    <!-- 引入 React Router 相关的 CDN -->
+    <script crossorigin src="https://unpkg.com/react-router-dom@6/umd/react-router-dom.umd.min.js"></script>
+
+    <title>华友圈 - 海外华人的交流圈~</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <nav class="navbar fixed-top" style="background-image: linear-gradient(#FF6060, #FF2323); box-shadow: 0px 8px 10px #F1948A;">
+        <div class="container justify-content-center">
+          <a class="navbar-brand" href="#"><img src="../../static/images/logo2.png" alt="Logo" height="40px" width="40px">
+            <ruby style="font-family: STKaiti, SimSun, STSong, sans-serif; font-size: 30px;">
+              华 <rp>(</rp><rt>HUA</rt><rp>)</rp>
+              友 <rp>(</rp><rt>YOU</rt><rp>)</rp>
+              圈 <rp>(</rp><rt>QUAN</rt><rp>)</rp>
+            </ruby>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasNavbarLabel" style="font-family: STKaiti, SimSun, STSong, sans-serif; font-size: 30px;">华友圈</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="#"><i class="bi bi-house-door"></i>首页</a>
+                </li>
+                <!--<li class="nav-item">
+                  <a class="nav-link" href="#">Link</a>
+                </li>-->
+                <!--<li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Dropdown
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                  </ul>
+                </li>-->
+              </ul>
+              <form class="d-flex mt-3" role="search">
+                <input class="form-control me-2" type="search" placeholder="搜索咨询" aria-label="Search">
+                <button class="btn btn-outline-danger" type="submit">搜索</button>
+              </form>
+            </div>
+          </div>
+    </div>
+      </nav>
+    </div>
+  </div>
+  <div class="row mt-5"><div class="col-sm-12"></div></div>
+  <div class="row mt-5">
+    <div class="col-sm-12">
+
+      <form class="needs-validation" novalidate>
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="validationCustom01" class="form-label">评论内容</label>
+          <textarea class="form-control" name="content" id="validationCustom01" placeholder="最多不超过50字。" maxlength="50" title="请输入内容" required></textarea>
+          <div class="invalid-feedback">
+            请输入内容。
+          </div>
+        </div>
+        <div class="mb-3">
+          <button class="btn btn-danger" type="button" id="submit-comment">发送</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="list-group" >
+        <div id="comment-list"></div>
+        {% for item in all_data %}
+          <div  class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">华友评论</h5>
+              <small>{{ item.created_at }}</small>
+            </div>
+            <p class="mb-1">{{ item.content }}</p>
+            <!--<small>And some small print.</small>-->
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+<div id="app"></div>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script>
+    function Home() {
+        return React.createElement('h1', null, 'Home Page');
+    }
+
+    function About() {
+        return React.createElement('h1', null, 'About Page');
+    }
+
+    function App() {
+        const [route, setRoute] = React.useState(window.location.hash.substr(1));
+
+        React.useEffect(() => {
+            window.onhashchange = () => {
+                setRoute(window.location.hash.substr(1));
+            };
+        }, []);
+
+        let Component;
+        switch(route) {
+            case '/about':
+                Component = About;
+                break;
+            default:
+                Component = Home;
+        }
+
+        return React.createElement(
+            'div',
+            null,
+            React.createElement(
+                'nav',
+                null,
+                React.createElement('a', { href: '#/' }, 'Home'),
+                React.createElement('a', { href: '#/about' }, 'About')
+            ),
+            React.createElement(Component)
+        );
+    }
+
+    ReactDOM.render(
+        React.createElement(App),
+        document.getElementById('app')
+    );
+</script>
+
+</body>
+</html>
