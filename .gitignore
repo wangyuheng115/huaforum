@@ -1,7 +1,10 @@
 # 忽略 /mysql_data 目录及其所有内容
 /mysql_data/*
 /.idea/*
-
+/apps/*
+/certbot/*
+/ReactApp/*
+media/
 #忽略文件
 Dockerfile
 Dockerfile.nginx

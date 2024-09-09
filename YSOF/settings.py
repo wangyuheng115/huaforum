@@ -13,6 +13,14 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 #import dj_database_url
 import os
+import django
+from django.utils.encoding import smart_str
+from django.utils.translation import gettext
+from datetime import timedelta
+
+django.utils.translation.ugettext = gettext
+django.utils.encoding.smart_text = smart_str
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -34,6 +42,8 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'rest_framework',
+    'rest_framework.authtoken',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -41,17 +51,46 @@ INSTALLED_APPS = [
     'daphne',
     'django.contrib.staticfiles',
     'channels',
+    'corsheaders',
     'Home',
+    'User',
+    'Article',
+    'Image',
+    'TagArticle',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+'''REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+    # 其他的REST_FRAMEWORK设置可以继续在这里添加
+}'''
+REST_FRAMEWORK = {
+# 设置默认的认证类，这里使用 JWT 认证
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    ),
+}
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+# 或者只允许特定的来源
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',  # 示例：允许从本地的 React 前端应用发送请求
 ]
 
 ROOT_URLCONF = 'YSOF.urls'
@@ -98,10 +137,10 @@ CHANNEL_LAYERS = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'YSOF',
+        'NAME': 'ysof',
         'USER': 'root',
-        'PASSWORD': 'ysof.1',
-        'HOST': 'db',
+        'PASSWORD': '',
+        'HOST': 'localhost',
         'PORT': '3306',
     }
 }
@@ -132,11 +171,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'zh-hans'
 
-TIME_ZONE = 'Europe/Rome'
-
 USE_I18N = True
 
-USE_TZ = True
+
 
 
 # Static files (CSS, JavaScript, Images)
@@ -150,3 +187,17 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+AUTH_USER_MODEL = 'User.ysof_users'
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    # 其他认证后端...
+]
+
+# JWT 设置
+JWT_AUTH = {
+    'JWT_AUTH_HEADER_PREFIX': 'JWT',
+    'JWT_EXPIRATION_DELTA': timedelta(days=7),  # 设置 Token 的有效期，这里是 7 天
+}

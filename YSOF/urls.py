@@ -18,12 +18,27 @@ from django.contrib import admin
 from django.contrib.staticfiles.views import serve
 from django.urls import path, re_path
 from django.conf.urls import include
-from Home import views
+from django.conf.urls.static import static
+
 from . import settings
+from Home.views import HomeView
+from User.views import UserView,LoginView,UserInfoView,UserAvatarView,SaveProfileView
+from TagArticle.views import SearchTagView,SearchSingleTagView,CreateTagView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home_view, name='home'),
+    path('', HomeView.as_view(), name='home'),
+    path('user/', UserView.as_view(), name='user'),
+    path('user/login/', LoginView.as_view(), name='login'),
+    path('user/userinfo/', UserInfoView.as_view(), name='userinfo'),
+    path('user/useravatar/', UserAvatarView.as_view(), name='useravatar'),
+    path('user/saveprofile/', SaveProfileView.as_view(), name='saveprofile'),
+    path('tags/searchtags/', SearchTagView.as_view(), name='searchtags'),
+    path('tags/searchtag/', SearchSingleTagView.as_view(), name='searchtag'),
+    path('tags/createtag/', CreateTagView.as_view(), name='createtag'),
     path('home/', include('Home.urls')),
     #re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}, name='static'),
 ]
+
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
